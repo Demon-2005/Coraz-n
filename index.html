@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>❤️</title>
+    <link rel="stylesheet" href="Para_Dedicar_CSS.css">
+</head>
+
+<body>
+
+<div id="app">
+
+    <div id="heart"></div>
+
+    <div id="text">
+        Cada vez que te veo,<br>
+        tu sonrisa me enamora más<br>
+
+        <div id="name">
+            <span class="butterfly left">🦋</span>
+            Brisa
+            <span class="butterfly right">🦋</span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const app = document.getElementById("app");
+const heart = document.getElementById("heart");
+
+/* =========================
+   MINI CORAZONES
+========================= */
+function spawnMiniHearts() {
+    const rect = heart.getBoundingClientRect();
+    const mini = document.createElement("div");
+
+    mini.className = "mini-heart";
+    mini.textContent = "💗";
+    mini.style.left = rect.left + rect.width / 2 + "px";
+    mini.style.top = rect.top + 10 + "px";
+
+    document.body.appendChild(mini);
+    setTimeout(() => mini.remove(), 1800);
+}
+
+let heartInterval = setInterval(spawnMiniHearts, 500);
+
+function stopHearts() {
+    clearInterval(heartInterval);
+    document.querySelectorAll(".mini-heart").forEach(h => h.remove());
+}
+
+/* =========================
+   CLICK EN BRISA
+========================= */
+document.getElementById("name").addEventListener("click", () => {
+    stopHearts();
+    app.style.opacity = "0";
+
+    setTimeout(() => {
+        app.innerHTML = `
+            <div class="final">
+                <h1>🌸</h1>
+                <p class="final-text">Esto es solo el comienzo…</p>
+                <button id="continue">¿Seguimos?</button>
+            </div>
+        `;
+        app.style.opacity = "1";
+
+        document.getElementById("continue")
+            .addEventListener("click", showCountdown);
+    }, 800);
+});
+
+/* =========================
+   CONTADOR
+========================= */
+function showCountdown() {
+    app.style.opacity = "0";
+
+    setTimeout(() => {
+        app.innerHTML = `
+            <div class="final">
+                <p class="final-text">
+                    A veces lo simple<br>
+                    es lo que más se queda.
+                </p>
+                <div id="timer">5</div>
+            </div>
+        `;
+        app.style.opacity = "1";
+        startCountdown();
+    }, 600);
+}
+
+function startCountdown() {
+    let time = 5;
+    const timer = document.getElementById("timer");
+
+    const countdown = setInterval(() => {
+        time--;
+        timer.textContent = time;
+
+        if (time === 0) {
+            clearInterval(countdown);
+            showProposal();
+        }
+    }, 1000);
+}
+
+/* =========================
+   PROPUESTA FINAL
+========================= */
+function showProposal() {
+    app.innerHTML = `
+        <div class="final">
+            <img src="foto_1.jpg" class="proposal-img" alt="Foto especial">
+
+            <p class="final-text">¿Querés ser mi novia?</p>
+
+            <div class="buttons">
+                <button onclick="sayYes()">Sí 💖</button>
+                <button id="noBtn">No 😶</button>
+            </div>
+
+            <p id="response"></p>
+        </div>
+    `;
+
+    document.getElementById("noBtn")
+        .addEventListener("click", sayNo);
+}
+
+/* =========================
+   RESPUESTAS
+========================= */
+function sayYes() {
+    document.getElementById("response").textContent =
+        "Entonces prometo cuidarte, elegirte y hacerte reír incluso en los días grises 💕";
+}
+
+const noTexts = [
+    "¿Por qué?",
+    "¿Estás segura?",
+    "Dale… pensalo bien",
+    "Mirá que no me rindo fácil",
+    "Última oportunidad…"
+];
+
+let noIndex = 0;
+
+function sayNo() {
+    const response = document.getElementById("response");
+
+    if (noIndex >= noTexts.length - 1) {
+        noIndex = 0;
+        app.style.opacity = "0";
+
+        setTimeout(() => {
+            app.innerHTML = `
+                <div class="final">
+                    <h1>🌸</h1>
+                    <p class="final-text">Esto es solo el comienzo…</p>
+                    <button id="continue">¿Seguimos?</button>
+                </div>
+            `;
+            app.style.opacity = "1";
+
+            document
+                .getElementById("continue")
+                .addEventListener("click", showCountdown);
+
+        }, 800);
+
+        return;
+    }
+
+    response.textContent = noTexts[noIndex];
+    noIndex++;
+}
+</script>
+
+</body>
+</html>
