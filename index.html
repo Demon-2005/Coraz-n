@@ -137,8 +137,15 @@ function showProposal() {
    RESPUESTAS
 ========================= */
 function sayYes() {
-    document.getElementById("response").textContent =
+    const response = document.getElementById("response");
+    response.textContent =
         "Entonces prometo cuidarte, elegirte y hacerte reír incluso en los días grises 💕";
+
+    setTimeout(() => {
+        app.style.opacity = "0";
+
+        setTimeout(showEnvelope, 800);
+    }, 2000);
 }
 
 const noTexts = [
@@ -180,6 +187,112 @@ function sayNo() {
     response.textContent = noTexts[noIndex];
     noIndex++;
 }
+    
+    function showEnvelope() {
+    app.innerHTML = `
+        <div class="envelope-screen">
+            <div class="envelope" id="envelope">
+                <div class="envelope-body"></div>
+                <div class="envelope-heart">❤️</div>
+            </div>
+
+            <p class="hint">Tocá el sobre</p>
+        </div>
+    `;
+
+    app.style.opacity = "1";
+
+    document
+        .getElementById("envelope")
+        .addEventListener("click", showMessage);
+}
+    
+    function showLetter() {
+    app.innerHTML = `
+        <div class="letter-container">
+            <div class="envelope" id="envelope">
+                <div class="flap"></div>
+
+                <div class="letter">
+                    <div class="letter-scroll">
+                        <p class="letter-title"><strong>Para Brisa</strong></p>
+
+                        <p class="letter-text">
+                        Sé que querés irte de misión, sé que tenés algunos problemas de salud y,
+                        te digo la verdad, me da igual.<br><br>
+
+                        Me gustás, y no te lo voy a negar. Hay algo en tu sonrisa, en tu personalidad,
+                        en tu voz, que me vuelve loco.<br><br>
+
+                        La verdad, no quería decirte nada para no ser una molestia o una traba en tus decisiones.
+                        En cambio, quiero que sepas que estoy feliz de tu decisión de irte de misión.<br><br>
+
+                        Estoy dispuesto a esperarte dos años.<br><br>
+
+                        Si estás acá es porque dijiste que sí, o porque le diste al “sí” para salir del bucle,
+                        no importa. Lo importante es que estás leyendo esto, y eso me alegra bastante.<br><br>
+
+                        Solo quiero darte un consejo:<br>
+                        cuidate con lo que comés, con lo que tomás,
+                        y hacéle caso a los médicos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="hint">Tocá el sobre</p>
+        </div>
+    `;
+
+    app.style.opacity = "1";
+
+    document
+        .getElementById("envelope")
+        .addEventListener("click", openEnvelope);
+}
+    
+    function openEnvelope() {
+    document
+        .getElementById("envelope")
+        .classList.add("open");
+}
+    
+    function showMessage() {
+    app.style.opacity = "0";
+
+    setTimeout(() => {
+        app.innerHTML = `
+            <div class="message-page">
+                <div class="message-sheet">
+                    <p class="message-title"><strong>Para Brisa</strong></p>
+
+                    <p class="message-text">
+                    Sé que querés irte de misión, sé que tenés algunos problemas de salud y,
+                    te digo la verdad, me da igual.<br><br>
+
+                    Me gustás, y no te lo voy a negar. Hay algo en tu sonrisa, en tu personalidad,
+                    en tu voz, que me vuelve loco.<br><br>
+
+                    La verdad, no quería decirte nada para no ser una molestia o una traba en tus decisiones.
+                    En cambio, quiero que sepas que estoy feliz de tu decisión de irte de misión.<br><br>
+
+                    Estoy dispuesto a esperarte dos años.<br><br>
+
+                    Si estás acá es porque dijiste que sí, o porque le diste al “sí” para salir del bucle,
+                    no importa. Lo importante es que estás leyendo esto, y eso me alegra bastante.<br><br>
+
+                    Solo quiero darte un consejo:<br>
+                    cuidate con lo que comés, con lo que tomás,
+                    y hacéle caso a los médicos.
+                    </p>
+                </div>
+            </div>
+        `;
+
+        app.style.opacity = "1";
+    }, 600);
+}
+    
 </script>
 
 </body>
