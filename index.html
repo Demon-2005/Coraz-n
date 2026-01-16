@@ -18,7 +18,7 @@
 
         <div id="name">
             <span class="butterfly left">🦋</span>
-            Brisa
+            <span class="name-text">Brisa</span>
             <span class="butterfly right">🦋</span>
         </div>
     </div>
@@ -64,7 +64,7 @@ document.getElementById("name").addEventListener("click", () => {
             <div class="final">
                 <h1>🌸</h1>
                 <p class="final-text">Esto es solo el comienzo…</p>
-                <button id="continue">¿Seguimos?</button>
+                <button id="continue">¿Te gustaria seguir?</button>
             </div>
         `;
         app.style.opacity = "1";
@@ -111,7 +111,7 @@ function startCountdown() {
 }
 
 /* =========================
-   PROPUESTA FINAL
+   PROPUESTA
 ========================= */
 function showProposal() {
     app.innerHTML = `
@@ -137,160 +137,116 @@ function showProposal() {
    RESPUESTAS
 ========================= */
 function sayYes() {
-    const response = document.getElementById("response");
-    response.textContent =
+    document.getElementById("response").textContent =
         "Entonces prometo cuidarte, elegirte y hacerte reír incluso en los días grises 💕";
 
-    setTimeout(() => {
-        app.style.opacity = "0";
-
-        setTimeout(showEnvelope, 800);
-    }, 2000);
+setTimeout(() => {
+    app.style.opacity = "0";
+    setTimeout(showEnvelope, 600);
+}, 2000);
 }
 
-const noTexts = [
-    "¿Por qué?",
+let noIndex = 0;
+
+const noQuestions = [
+    "¿Por qué no?",
     "¿Estás segura?",
-    "Dale… pensalo bien",
-    "Mirá que no me rindo fácil",
+    "Pensalo otra vez…",
+    "Mirá que no muerdo 😅",
+    "Dale, no seas mala",
     "Última oportunidad…"
 ];
-
-let noIndex = 0;
 
 function sayNo() {
     const response = document.getElementById("response");
 
-    if (noIndex >= noTexts.length - 1) {
-        noIndex = 0;
-        app.style.opacity = "0";
+    response.textContent = noQuestions[noIndex];
 
-        setTimeout(() => {
-            app.innerHTML = `
-                <div class="final">
-                    <h1>🌸</h1>
-                    <p class="final-text">Esto es solo el comienzo…</p>
-                    <button id="continue">¿Seguimos?</button>
-                </div>
-            `;
-            app.style.opacity = "1";
-
-            document
-                .getElementById("continue")
-                .addEventListener("click", showCountdown);
-
-        }, 800);
-
-        return;
-    }
-
-    response.textContent = noTexts[noIndex];
     noIndex++;
+
+    if (noIndex === noQuestions.length) {
+        setTimeout(() => {
+            noIndex = 0;
+            restartLoop();
+        }, 1200);
+    }
 }
-    
-    function showEnvelope() {
-    app.innerHTML = `
-        <div class="envelope-screen">
-            <div class="envelope" id="envelope">
-                <div class="envelope-body"></div>
-                <div class="envelope-heart">❤️</div>
-            </div>
 
-            <p class="hint">Tocá el sobre</p>
-        </div>
-    `;
+/* =========================
+   SOBRE
+========================= */
+function showEnvelope() {
+    app.style.opacity = "0";
 
-    app.style.opacity = "1";
-
-    document
-        .getElementById("envelope")
-        .addEventListener("click", showMessage);
-}
-    
-    function showLetter() {
-    app.innerHTML = `
-        <div class="letter-container">
-            <div class="envelope" id="envelope">
-                <div class="flap"></div>
-
-                <div class="letter">
-                    <div class="letter-scroll">
-                        <p class="letter-title"><strong>Para Brisa</strong></p>
-
-                        <p class="letter-text">
-                        Sé que querés irte de misión, sé que tenés algunos problemas de salud y,
-                        te digo la verdad, me da igual.<br><br>
-
-                        Me gustás, y no te lo voy a negar. Hay algo en tu sonrisa, en tu personalidad,
-                        en tu voz, que me vuelve loco.<br><br>
-
-                        La verdad, no quería decirte nada para no ser una molestia o una traba en tus decisiones.
-                        En cambio, quiero que sepas que estoy feliz de tu decisión de irte de misión.<br><br>
-
-                        Estoy dispuesto a esperarte dos años.<br><br>
-
-                        Si estás acá es porque dijiste que sí, o porque le diste al “sí” para salir del bucle,
-                        no importa. Lo importante es que estás leyendo esto, y eso me alegra bastante.<br><br>
-
-                        Solo quiero darte un consejo:<br>
-                        cuidate con lo que comés, con lo que tomás,
-                        y hacéle caso a los médicos.
-                        </p>
-                    </div>
+    setTimeout(() => {
+        app.innerHTML = `
+            <div class="envelope-screen">
+                <div class="envelope" id="envelope">
+                    <div class="envelope-body"></div>
+                    <div class="envelope-heart">❤️</div>
                 </div>
+                <p class="hint">Tocá el sobre</p>
             </div>
+        `;
 
-            <p class="hint">Tocá el sobre</p>
-        </div>
-    `;
+        app.style.opacity = "1";
 
-    app.style.opacity = "1";
-
-    document
-        .getElementById("envelope")
-        .addEventListener("click", openEnvelope);
+        document.getElementById("envelope")
+            .addEventListener("click", showMessage);
+    }, 600);
 }
-    
-    function openEnvelope() {
-    document
-        .getElementById("envelope")
-        .classList.add("open");
-}
-    
-    function showMessage() {
+
+/* =========================
+   MENSAJE FINAL
+========================= */
+function showMessage() {
     app.style.opacity = "0";
 
     setTimeout(() => {
         app.innerHTML = `
             <div class="message-page">
-                <div class="message-sheet">
-                    <p class="message-title"><strong>Para Brisa</strong></p>
+    <div class="message-sheet">
+        <p class="message-title"><strong>Para Brisa</strong></p>
 
-                    <p class="message-text">
-                    Sé que querés irte de misión, sé que tenés algunos problemas de salud y,
-                    te digo la verdad, me da igual.<br><br>
+        <div class="message-text">
+            <p>Sé que querés irte de misión, sé que tenés algunos problemas de salud y, te digo la verdad, me da igual.</p>
 
-                    Me gustás, y no te lo voy a negar. Hay algo en tu sonrisa, en tu personalidad,
-                    en tu voz, que me vuelve loco.<br><br>
+            <p>Me gustás, y no te lo voy a negar. Hay algo en tu sonrisa, en tu personalidad, en tu voz, que me vuelve loco.</p>
 
-                    La verdad, no quería decirte nada para no ser una molestia o una traba en tus decisiones.
-                    En cambio, quiero que sepas que estoy feliz de tu decisión de irte de misión.<br><br>
+            <p>No quería decirte nada para no ser una molestia, pero quiero que sepas que estoy feliz de tu decisión.</p>
 
-                    Estoy dispuesto a esperarte dos años.<br><br>
+            <p>Estoy dispuesto a esperarte dos años si es necesario.</p>
 
-                    Si estás acá es porque dijiste que sí, o porque le diste al “sí” para salir del bucle,
-                    no importa. Lo importante es que estás leyendo esto, y eso me alegra bastante.<br><br>
+            <p>Lo importante es que estás leyendo esto. Y eso me alegra bastante.</p>
 
-                    Solo quiero darte un consejo:<br>
-                    cuidate con lo que comés, con lo que tomás,
-                    y hacéle caso a los médicos.
-                    </p>
-                </div>
-            </div>
+            <p>Cuidate. En serio. Con lo que comés, con lo que tomás, y hacéle caso a los médicos.</p>
+        </div>
+    </div>
+</div>
         `;
 
         app.style.opacity = "1";
     }, 600);
+}
+    
+    function restartLoop() {
+    app.style.opacity = "0";
+
+    setTimeout(() => {
+        app.innerHTML = `
+            <div class="final">
+                <h1>🌸</h1>
+                <p class="final-text">Esto es solo el comienzo…</p>
+                <button id="continue">¿Te gustaría seguir?</button>
+            </div>
+        `;
+
+        app.style.opacity = "1";
+
+        document
+            .getElementById("continue")
+            .addEventListener("click", showCountdown);
+    }, 800);
 }
     
 </script>
